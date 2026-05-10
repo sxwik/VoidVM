@@ -11,7 +11,7 @@ export const customProfile: BootProfile = {
 };
 
 export const PRESET_PROFILES: BootProfile[] = [
-  archProfile,
   dslProfile,
+  archProfile,
   customProfile
 ];
