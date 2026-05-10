@@ -136,7 +136,7 @@ export class EmulatorRuntime {
   }
 
   private buildOptions(profile: BootProfile, screenContainer: HTMLElement): V86Options {
-    const bust = "?v=3";
+    const bust = "?t=" + Date.now();
     const opts: V86Options & Record<string, any> = {
       wasm_path: '/v86.wasm' + bust,
       memory_size: profile.memorySize * 1024 * 1024,
