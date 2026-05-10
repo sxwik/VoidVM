@@ -36,11 +36,5 @@
         }
       ]
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/proxy/copy.sh/(.*)",
-      "destination": "https://i.copy.sh/$1"
-    }
   ]
 }

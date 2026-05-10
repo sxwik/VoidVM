@@ -5,5 +5,5 @@ export const dslProfile: BootProfile = {
   name: 'Damn Small Linux', 
   memorySize: 64, 
   vgaMemorySize: 8, 
-  cdromPath: 'https://i.copy.sh/linux3.iso' 
+  cdromPath: '/images/linux3.iso' 
 };
