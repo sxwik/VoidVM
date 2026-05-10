@@ -136,8 +136,9 @@ export class EmulatorRuntime {
   }
 
   private buildOptions(profile: BootProfile, screenContainer: HTMLElement): V86Options {
+    const bust = "?v=3";
     const opts: V86Options & Record<string, any> = {
-      wasm_path: '/v86.wasm',
+      wasm_path: '/v86.wasm' + bust,
       memory_size: profile.memorySize * 1024 * 1024,
       vga_memory_size: profile.vgaMemorySize * 1024 * 1024,
       screen_container: screenContainer,
@@ -146,24 +147,24 @@ export class EmulatorRuntime {
     };
 
     if (!profile.statePath) {
-      opts.bios = { url: '/bios/seabios.bin' };
-      opts.vga_bios = { url: '/bios/vgabios.bin' };
+      opts.bios = { url: '/bios/seabios.bin' + bust };
+      opts.vga_bios = { url: '/bios/vgabios.bin' + bust };
     }
 
     if (profile.cdromFile) {
       opts.cdrom = { buffer: profile.cdromFile as any, async: true } as any;
     } else if (profile.cdromPath) {
-      opts.cdrom = { url: profile.cdromPath };
+      opts.cdrom = { url: profile.cdromPath + bust };
     }
 
     if (profile.statePath) {
-      opts.initial_state = { url: profile.statePath } as any;
+      opts.initial_state = { url: profile.statePath + bust } as any;
     }
 
     if (profile.filesystem) {
       opts.filesystem = { baseurl: profile.filesystem.baseurl };
       if (profile.filesystem.basefsUrl) {
-        opts.filesystem.basefs = { url: profile.filesystem.basefsUrl } as any;
+        opts.filesystem.basefs = { url: profile.filesystem.basefsUrl + bust } as any;
         opts.bzimage_initrd_from_filesystem = true;
       }
     }
@@ -173,7 +174,7 @@ export class EmulatorRuntime {
     }
 
     if (profile.bzimagePath) {
-      opts.bzimage = { url: profile.bzimagePath };
+      opts.bzimage = { url: profile.bzimagePath + bust };
     }
 
     if (profile.netDeviceType) {
