@@ -1,0 +1,5 @@
+*.wasm binary
+*.bin binary
+*.zst binary
+*.iso binary
+*.img binary
