@@ -17,6 +17,7 @@
     "@vitejs/plugin-react": "^5.0.4",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
+    "fzstd": "^0.1.1",
     "http-proxy-middleware": "^4.0.0",
     "idb-keyval": "^6.2.2",
     "lucide-react": "^0.546.0",

@@ -104,10 +104,14 @@ export default function App() {
     }
   }, [logs]);
 
+  const prevIsRunning = useRef(isRunning);
+
   useEffect(() => {
     let interval: number;
     if (isRunning) {
-      setLogs(prev => [...prev, '[v86] Powering on virtual machine...']);
+      if (!prevIsRunning.current) {
+        setLogs(prev => [...prev, '[v86] Powering on virtual machine...']);
+      }
       interval = window.setInterval(() => {
         if (emulatorRef.current) {
           try {
@@ -118,13 +122,18 @@ export default function App() {
           }
         }
       }, 1000);
-    } else if (uptime > 0) {
-      setLogs(prev => [...prev, '[v86] Virtual machine powered off.']);
+    } else {
+      if (prevIsRunning.current) {
+        setLogs(prev => [...prev, '[v86] Virtual machine powered off.']);
+      }
     }
+    
+    prevIsRunning.current = isRunning;
+
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isRunning, emulatorRef, uptime]);
+  }, [isRunning, emulatorRef]);
 
   useEffect(() => {
     if (downloadProgress) {

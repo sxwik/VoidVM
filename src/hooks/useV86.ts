@@ -72,18 +72,19 @@ export function useV86() {
         memory_size: profile.memorySize * 1024 * 1024,
         vga_memory_size: profile.vgaMemorySize * 1024 * 1024,
         screen_container: screenRef.current!,
-        bios: { url: '/bios/seabios.bin' },
-        vga_bios: { url: '/bios/vgabios.bin' },
         autostart: true,
         disable_speaker: true
     };
+
+    if (!profile.statePath) {
+        opts.bios = { url: '/bios/seabios.bin' };
+        opts.vga_bios = { url: '/bios/vgabios.bin' };
+    }
 
     if (profile.cdromFile) {
         opts.cdrom = { buffer: profile.cdromFile as any, async: true } as any;
     } else if (profile.cdromPath) {
         opts.cdrom = { url: profile.cdromPath };
-    } else if (profile.statePath) {
-        opts.cdrom = { buffer: new ArrayBuffer(0) as any };
     }
 
     if (profile.statePath) {
@@ -103,7 +104,6 @@ export function useV86() {
     }
 
     if (profile.bzimagePath) {
-        // v86 accepts bzimage as an option, but we need to structure it 
         opts.bzimage = { url: profile.bzimagePath };
     }
 
@@ -133,7 +133,21 @@ export function useV86() {
     }
 
     try {
+        window.addEventListener('error', (e) => {
+            console.error('GLOBAL ERROR:', e.error?.stack || e.error);
+        });
+        window.addEventListener('unhandledrejection', (e) => {
+            if (e.reason && e.reason.message && e.reason.message.includes('lock() must be called from a primary')) {
+              // Ignore the navigator.keyboard.lock() async rejection
+              e.preventDefault();
+              return;
+            }
+            console.error('UNHANDLED REJECTION:', e.reason?.stack || e.reason);
+        });
+        
         emulatorRef.current = new V86(options);
+        (window as any).emulator = emulatorRef.current;
+        emulatorRef.current.keyboard_set_enabled(true);
         
         setUptime(0);
 
@@ -187,8 +201,13 @@ export function useV86() {
   }, []);
 
   const goFullscreen = useCallback(() => {
-    if (emulatorRef.current) {
-      emulatorRef.current.screen_go_fullscreen();
+    if (screenRef.current) {
+      const el = screenRef.current;
+      if (el.requestFullscreen) {
+        el.requestFullscreen().catch(err => {
+          console.warn(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+      }
     }
   }, []);
 
@@ -217,6 +236,16 @@ export function useV86() {
       destroyEmulator();
     };
   }, [destroyEmulator]);
+
+  // Hook into window keydown to debug keyboard input
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      // Just some debug logging to verify keys are reaching the top level window!
+      // console.log("Keydown at window level received:", e.key, e.code);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
 
   return {
     screenRef,
