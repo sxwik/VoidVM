@@ -1,0 +1,6 @@
+{
+  "name": "VoidVM",
+  "description": "A browser-based Linux Virtual Machine powered by v86 emulator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
