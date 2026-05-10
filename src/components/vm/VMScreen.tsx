@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-interface V86ScreenProps {
+interface VMScreenProps {
   screenRef: React.RefObject<HTMLDivElement | null>;
 }
 
@@ -9,7 +9,7 @@ const V86_HTML_STRUCTURE = `
   <canvas style="display: none"></canvas>
 `;
 
-export const V86Screen: React.FC<V86ScreenProps> = React.memo(({ screenRef }) => {
+export const VMScreen: React.FC<VMScreenProps> = React.memo(({ screenRef }) => {
   useEffect(() => {
     // Explicitly focus the screen container on mount to ensure keyboard events are captured
     if (screenRef.current) {

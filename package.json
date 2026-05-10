@@ -25,7 +25,8 @@
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "v86": "^0.5.357",
-    "vite": "^6.2.3"
+    "vite": "^6.2.3",
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
