@@ -23,10 +23,7 @@ async function startServer() {
     pathRewrite: {
       '^/proxy/copy.sh': '', // remove base path
     },
-    secure: false,
-    onError: (err, req, res) => {
-        console.error('Proxy Error:', err.message);
-    }
+    secure: false
   }));
 
   // Vite middleware for development

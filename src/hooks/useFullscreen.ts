@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 export function useFullscreen(screenRef: React.RefObject<HTMLDivElement | null>) {
   const goFullscreen = useCallback(() => {

@@ -157,13 +157,13 @@ export class EmulatorRuntime {
     }
 
     if (profile.statePath) {
-      opts.initial_state = { url: profile.statePath };
+      opts.initial_state = { url: profile.statePath } as any;
     }
 
     if (profile.filesystem) {
       opts.filesystem = { baseurl: profile.filesystem.baseurl };
       if (profile.filesystem.basefsUrl) {
-        opts.filesystem.basefs = { url: profile.filesystem.basefsUrl };
+        opts.filesystem.basefs = { url: profile.filesystem.basefsUrl } as any;
         opts.bzimage_initrd_from_filesystem = true;
       }
     }

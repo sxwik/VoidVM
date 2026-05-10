@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSettingsStore } from '../../store/settingsStore';
 import { useV86 } from '../../hooks/useV86';
 
-const MenuBarItem = ({ label, items, activeMenu, setActiveMenu, id }: { label: string, items: {label: string, action?: () => void, disabled?: boolean, separator?: boolean}[], activeMenu: string | null, setActiveMenu: (id: string | null) => void, id: string }) => {
+const MenuBarItem = ({ label, items, activeMenu, setActiveMenu, id }: { label: string, items: {label?: string, action?: () => void, disabled?: boolean, separator?: boolean}[], activeMenu: string | null, setActiveMenu: (id: string | null) => void, id: string }) => {
   const isOpen = activeMenu === id;
   
   return (

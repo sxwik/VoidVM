@@ -1,6 +1,5 @@
 import React from 'react';
 import { useVMStore } from '../../store/vmStore';
-import { PRESET_PROFILES } from '../../runtime/profiles';
 import { useV86 } from '../../hooks/useV86';
 import { Cpu, Monitor, Disc, Network } from 'lucide-react';
 import { formatUptime } from '../../utils/format';
@@ -8,27 +7,6 @@ import { formatUptime } from '../../utils/format';
 export const Sidebar: React.FC<{ v86Info: ReturnType<typeof useV86>, stats: string }> = ({ v86Info, stats }) => {
   const { activeTab, setActiveTab } = useVMStore();
   const { isRunning, hasSaveState, uptime, activeProfile, setActiveProfile } = v86Info;
-
-  const handleProfileChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const profileId = e.target.value;
-    const profile = PRESET_PROFILES.find(p => p.id === profileId);
-    if (profile) {
-      setActiveProfile(profile);
-    }
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setActiveProfile({
-        id: 'custom',
-        name: file.name,
-        cdromFile: file,
-        memorySize: activeProfile.memorySize,
-        vgaMemorySize: activeProfile.vgaMemorySize,
-      });
-    }
-  };
 
   return (
     <div className="w-64 bg-[#252526] border-r border-[#3e3e42] flex flex-col flex-shrink-0">
@@ -57,29 +35,15 @@ export const Sidebar: React.FC<{ v86Info: ReturnType<typeof useV86>, stats: stri
               <div className="font-semibold text-slate-300 mb-2 border-b border-[#3e3e42] pb-1 uppercase tracking-wider text-[10px]">VM Configuration</div>
               <div className="grid grid-cols-[80px_1fr] gap-y-2 items-center mb-2">
                 <label className="text-slate-400">Profile</label>
-                <select
-                  value={activeProfile.id}
-                  onChange={handleProfileChange}
-                  disabled={isRunning}
-                  className="bg-[#333333] border border-[#454545] text-slate-200 outline-none p-0.5 rounded-sm disabled:opacity-50"
-                >
-                  {PRESET_PROFILES.map(p => (
-                    <option key={p.id} value={p.id}>{p.name}</option>
-                  ))}
-                </select>
+                <div className="bg-[#333333] border border-[#454545] text-slate-200 p-0.5 px-2 rounded-sm text-[11px]">
+                  Arch Linux
+                </div>
 
                 <label className="text-slate-400 text-[10px] leading-tight">ISO Image</label>
-                {activeProfile.id === 'custom' ? (
-                  <input 
-                    type="file" 
-                    accept=".iso,.img,.img.zip"
-                    onChange={handleFileUpload}
-                    disabled={isRunning}
-                    className="bg-[#333333] border border-[#454545] text-slate-200 p-0.5 rounded-sm w-full file:hidden text-[10px]"
-                  />
-                ) : (
-                  <div className="text-slate-300 truncate" title={activeProfile.name}>{activeProfile.name}</div>
-                )}
+                <div className="text-slate-300 truncate" title={activeProfile.name}>{activeProfile.name}</div>
+              </div>
+              <div className="mt-4 p-2 bg-[#1e1e1e] border border-blue-500/30 rounded text-[10px] text-blue-400">
+                <strong>Beta Note:</strong> We are currently in beta and only tested Arch Linux because I am alone working on the project and have school/studies. Other OS versions will be available soon!
               </div>
             </div>
 
