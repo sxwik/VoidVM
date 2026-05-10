@@ -8,6 +8,42 @@
           "value": "application/wasm"
         }
       ]
+    },
+    {
+      "source": "/(.*)\\.zst",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.iso",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.bin",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob:; worker-src 'self' blob:;"
+        }
+      ]
     }
   ]
 }
