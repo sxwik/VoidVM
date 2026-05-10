@@ -18,6 +18,10 @@ export default defineConfig(({mode}) => {
     server: { 
       hmr: process.env.DISABLE_HMR !== 'true',
       cors: true,
+      headers: {
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Embedder-Policy': 'require-corp',
+      },
     },
   };
 });
