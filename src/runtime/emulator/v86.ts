@@ -149,24 +149,26 @@ export class EmulatorRuntime {
     };
 
     if (!profile.statePath) {
-      opts.bios = { url: '/bios/seabios.bin' + bust };
-      opts.vga_bios = { url: '/bios/vgabios.bin' + bust };
+      opts.bios = { url: 'https://raw.githubusercontent.com/copy/v86/master/bios/seabios.bin' };
+      opts.vga_bios = { url: 'https://raw.githubusercontent.com/copy/v86/master/bios/vgabios.bin' };
     }
+
+    const withBust = (url: string) => url.startsWith('http') ? url : url + bust;
 
     if (profile.cdromFile) {
       opts.cdrom = { buffer: profile.cdromFile as any, async: true } as any;
     } else if (profile.cdromPath) {
-      opts.cdrom = { url: profile.cdromPath + bust };
+      opts.cdrom = { url: withBust(profile.cdromPath) };
     }
 
     if (profile.statePath) {
-      opts.initial_state = { url: profile.statePath + bust } as any;
+      opts.initial_state = { url: withBust(profile.statePath) } as any;
     }
 
     if (profile.filesystem) {
       opts.filesystem = { baseurl: profile.filesystem.baseurl };
       if (profile.filesystem.basefsUrl) {
-        opts.filesystem.basefs = { url: profile.filesystem.basefsUrl + bust } as any;
+        opts.filesystem.basefs = { url: withBust(profile.filesystem.basefsUrl) } as any;
         opts.bzimage_initrd_from_filesystem = true;
       }
     }
@@ -176,7 +178,7 @@ export class EmulatorRuntime {
     }
 
     if (profile.bzimagePath) {
-      opts.bzimage = { url: profile.bzimagePath + bust };
+      opts.bzimage = { url: withBust(profile.bzimagePath) };
     }
 
     if (profile.netDeviceType) {

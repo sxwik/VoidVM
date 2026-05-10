@@ -35,15 +35,12 @@
           "value": "application/octet-stream"
         }
       ]
-    },
+    }
+  ],
+  "rewrites": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Content-Security-Policy",
-          "value": "script-src 'self' 'unsafe-eval' 'unsafe-inline' blob:; worker-src 'self' blob:;"
-        }
-      ]
+      "source": "/proxy/copy.sh/(.*)",
+      "destination": "https://i.copy.sh/$1"
     }
   ]
 }
