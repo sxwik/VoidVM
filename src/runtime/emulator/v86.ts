@@ -1,6 +1,8 @@
+/// <reference types="vite/client" />
 import { V86, V86Options } from 'v86';
 import { get, set } from 'idb-keyval';
 import { BootProfile } from '../../types/profiles';
+import v86WasmUrl from "v86/build/v86.wasm?url";
 
 export class EmulatorRuntime {
   public instance: V86 | null = null;
@@ -138,7 +140,7 @@ export class EmulatorRuntime {
   private buildOptions(profile: BootProfile, screenContainer: HTMLElement): V86Options {
     const bust = "?t=" + Date.now();
     const opts: V86Options & Record<string, any> = {
-      wasm_path: '/v86.wasm' + bust,
+      wasm_path: v86WasmUrl,
       memory_size: profile.memorySize * 1024 * 1024,
       vga_memory_size: profile.vgaMemorySize * 1024 * 1024,
       screen_container: screenContainer,
